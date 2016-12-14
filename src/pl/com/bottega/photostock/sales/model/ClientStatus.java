@@ -1,0 +1,7 @@
+package pl.com.bottega.photostock.sales.model;
+
+public enum ClientStatus {
+
+    REGULAR, VIP
+
+}
