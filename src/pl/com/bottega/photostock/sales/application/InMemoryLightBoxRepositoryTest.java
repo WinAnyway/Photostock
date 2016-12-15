@@ -14,6 +14,7 @@ public class InMemoryLightBoxRepositoryTest {
         Picture picture1 = new Picture("BMW", tags, Money.valueOf(3));
         Picture picture2 = new Picture("Mercedes", tags, Money.valueOf(2));
         Picture picture3 = new Picture("Porshe", tags, Money.valueOf(4));
+        Picture picture4 = new Picture("Maluch", tags, Money.valueOf(1));
 
         Client client1 = new Client("Janek", new Address(), Money.ZERO);
         Client client2 = new Client("Franek", new Address(), Money.valueOf(10));
@@ -40,7 +41,10 @@ public class InMemoryLightBoxRepositoryTest {
         repository.put(lb3);
         repository.put(lb4);
 
-//        repository.put(lb1);
+        printLightBoxes(repository.getFor(client1));
+
+        lb1.add(picture4);
+        repository.put(lb1);
 
         printLightBoxes(repository.getFor(client1));
         printLightBoxes(repository.getFor(client2));

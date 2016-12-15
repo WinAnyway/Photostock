@@ -11,11 +11,6 @@ public class InMemoryLightBoxRepository implements LightBoxRepository {
         Client owner = l.getOwner();
         repository.putIfAbsent(owner, new HashSet<>());
         Collection<LightBox> ownerLightBoxes = repository.get(owner);
-
-        if (ownerLightBoxes.contains(l)) {
-            throw new IllegalArgumentException(String.format("LightBox %s is already in this respository", l.getName()));
-        }
-
         ownerLightBoxes.add(l);
     }
 
