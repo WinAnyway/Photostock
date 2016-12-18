@@ -8,23 +8,21 @@ public class Client {
     private String name;
     private Address address;
     private ClientStatus status;
-    private Money balance;
-    private Money creditLimit;
+    protected Money balance;
     private Collection<Transaction> transactions;
 
-    public Client(String name, Address address, ClientStatus status, Money initialBalance, Money creditLimit) {
+    public Client(String name, Address address, ClientStatus status, Money initialBalance) {
         this.name = name;
         this.address = address;
         this.status = status;
         this.balance = initialBalance;
-        this.creditLimit = creditLimit;
         this.transactions = new LinkedList<>();
         if (!initialBalance.equals(Money.ZERO))
             this.transactions.add(new Transaction(initialBalance, "Opening account"));
     }
 
     public Client(String name, Address address, Money balance) {
-        this(name, address, ClientStatus.REGULAR, balance, Money.ZERO);
+        this(name, address, ClientStatus.STANDARD, balance);
     }
 
     public boolean canAfford(Money money) {
@@ -57,5 +55,9 @@ public class Client {
 
     public String getName() {
         return name;
+    }
+
+    public String introduce(){
+        return String.format("%s - %s", name, status.getStatusName());
     }
 }

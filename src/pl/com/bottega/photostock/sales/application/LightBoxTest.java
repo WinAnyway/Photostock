@@ -2,15 +2,12 @@ package pl.com.bottega.photostock.sales.application;
 
 import pl.com.bottega.photostock.sales.model.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 public class LightBoxTest {
     public static void main(String[] args) {
-        Collection<String> tags = Arrays.asList("przyroda", "motoryzacja");
-        Picture picture1 = new Picture("BMW", tags, Money.valueOf(3));
-        Picture picture2 = new Picture("Mercedes", tags, Money.valueOf(2));
-        Picture picture3 = new Picture("Porshe", tags, Money.valueOf(4));
+        ProductRepository productRepository = new InMemoryProductRepository();
+        Product product1 = productRepository.get("1");
+        Product product2 = productRepository.get("2");
+        Product product3 = productRepository.get("3");
 
         Client client1 = new Client("Janek", new Address(), Money.ZERO);
         Client client2 = new Client("Franek", new Address(), Money.valueOf(10));
@@ -19,15 +16,15 @@ public class LightBoxTest {
         LightBox lb2 = new LightBox(client1, "Wyścigowe Samochody");
         LightBox lb3 = new LightBox(client2, "BMW");
 
-        lb1.add(picture1);
-        lb1.add(picture2);
-        lb1.add(picture3);
+        lb1.add(product1);
+        lb1.add(product2);
+        lb1.add(product3);
 
-        lb2.add(picture1);
+        lb2.add(product1);
 
-        lb3.add(picture3);
+        lb3.add(product3);
 
-        picture1.deactivate();
+        product1.deactivate();
 
         printLightboxes(lb1, lb2, lb3);
 
@@ -46,11 +43,11 @@ public class LightBoxTest {
     }
 
     private static void printLightBox(LightBox lightBox) {
-        for(Picture picture : lightBox) {
+        for(Product product : lightBox) {
             System.out.println(String.format("%s%s | %s",
-                    (picture.isActive() ? "" : "X "),
-                    picture.getNumber(),
-                    picture.calculatePrice(lightBox.getOwner())));
+                    (product.isActive() ? "" : "X "),
+                    product.getNumber(),
+                    product.calculatePrice(lightBox.getOwner())));
         }
     }
 }

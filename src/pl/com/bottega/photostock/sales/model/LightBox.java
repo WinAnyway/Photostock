@@ -1,32 +1,32 @@
 package pl.com.bottega.photostock.sales.model;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 
-public class LightBox implements Iterable<Picture> {
+public class LightBox implements Iterable<Product> {
 
     private String name;
     private Client client;
-    private Collection<Picture> items = new HashSet<>();
+    private Collection<Product> items = new LinkedList<>();
 
     public LightBox(Client client, String name) {
         this.name = name;
         this.client = client;
     }
 
-    public void add(Picture picture) {
-        if (!picture.isAvailable())
-            throw new IllegalArgumentException(String.format("Picture %s is not available", picture.getNumber()));
-        if (items.contains(picture))
-            throw new IllegalArgumentException(String.format("Picture %s is already in LightBox %s", picture.getNumber(), name));
-        items.add(picture);
+    public void add(Product product) {
+        if (!product.isAvailable())
+            throw new IllegalArgumentException(String.format("Product %s is not available", product.getNumber()));
+        if (items.contains(product))
+            throw new IllegalArgumentException(String.format("Product %s is already in LightBox %s", product.getNumber(), name));
+        items.add(product);
     }
 
-    public void remove(Picture picture) {
-        if (!items.contains(picture))
-            throw new IllegalArgumentException(String.format("Picture %s is not in LightBox %s", picture.getNumber(), name));
-        items.remove(picture);
+    public void remove(Product product) {
+        if (!items.contains(product))
+            throw new IllegalArgumentException(String.format("Product %s is not in LightBox %s", product.getNumber(), name));
+        items.remove(product);
     }
 
     public void rename(String newName) {
@@ -38,7 +38,7 @@ public class LightBox implements Iterable<Picture> {
     }
 
     @Override
-    public Iterator<Picture> iterator() {
+    public Iterator<Product> iterator() {
         return items.iterator();
     }
 
@@ -54,9 +54,9 @@ public class LightBox implements Iterable<Picture> {
 
     private void join(LightBox[] lightboxes) {
         for (LightBox lightbox : lightboxes)
-            for (Picture picture : lightbox) {
-                if (!items.contains(picture) && picture.isAvailable())
-                    items.add(picture);
+            for (Product product : lightbox) {
+                if (!items.contains(product) && product.isAvailable())
+                    items.add(product);
             }
 
     }

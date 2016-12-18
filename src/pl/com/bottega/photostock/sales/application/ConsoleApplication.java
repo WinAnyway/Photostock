@@ -2,24 +2,24 @@ package pl.com.bottega.photostock.sales.application;
 
 import pl.com.bottega.photostock.sales.model.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 public class ConsoleApplication {
 
     public static void main(String[] args) {
-        Collection<String> tags = Arrays.asList("przyroda", "motoryzacja");
-        Picture picture1 = new Picture("BMW", tags, Money.valueOf(3));
-        Picture picture2 = new Picture("Mercedes", tags, Money.valueOf(2));
-        Picture picture3 = new Picture("Porshe", tags, Money.valueOf(4));
-
+        ProductRepository productRepository = new InMemoryProductRepository();
         Client client = new Client("Johny X", new Address(), Money.valueOf(100));
 
+        System.out.println(client.introduce());
         Reservation reservation = new Reservation(client);
 
-        reservation.add(picture1);
-        reservation.add(picture2);
-        reservation.add(picture3);
+        Product product1 = productRepository.get("1");
+        Product product2 = productRepository.get("2");
+        Product product3 = productRepository.get("3");
+        Product product4 = productRepository.get("4");
+
+        reservation.add(product1);
+        reservation.add(product2);
+        reservation.add(product3);
+        reservation.add(product4);
         System.out.println("After adding items count: " + reservation.getItemsCount());
 
         reservation.getItemsCount();
@@ -31,7 +31,7 @@ public class ConsoleApplication {
 
         if (canAfford) {
             client.charge(offer.getTotalCost(), "Test purchase");
-            Purchase purchase = new Purchase(client, picture1, picture2, picture3);
+            Purchase purchase = new Purchase(client, product1, product2, product3);
             System.out.println("Client purchased: " + purchase.getItemsCount() + " products");
             System.out.println("Total cost: " + offer.getTotalCost());
         }

@@ -2,19 +2,19 @@ package pl.com.bottega.photostock.sales.application;
 
 import pl.com.bottega.photostock.sales.model.*;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 public class InMemoryLightBoxRepositoryTest {
 
     public static void main(String[] args) {
-        Collection<String> tags = Arrays.asList("przyroda", "motoryzacja");
+        ProductRepository productRepository = new InMemoryProductRepository();
         InMemoryLightBoxRepository repository = new InMemoryLightBoxRepository();
 
-        Picture picture1 = new Picture("BMW", tags, Money.valueOf(3));
-        Picture picture2 = new Picture("Mercedes", tags, Money.valueOf(2));
-        Picture picture3 = new Picture("Porshe", tags, Money.valueOf(4));
-        Picture picture4 = new Picture("Maluch", tags, Money.valueOf(1));
+
+        Product product1 = productRepository.get("1");
+        Product product2 = productRepository.get("2");
+        Product product3 = productRepository.get("3");
+
 
         Client client1 = new Client("Janek", new Address(), Money.ZERO);
         Client client2 = new Client("Franek", new Address(), Money.valueOf(10));
@@ -27,14 +27,14 @@ public class InMemoryLightBoxRepositoryTest {
         LightBox lb4 = new LightBox(client3, "Krajobrazy");
 
 
-        lb1.add(picture1);
-        lb1.add(picture2);
-        lb1.add(picture3);
-        lb2.add(picture1);
-        lb3.add(picture3);
-        lb4.add(picture1);
-        lb4.add(picture2);
-        lb4.add(picture3);
+        lb1.add(product1);
+        lb1.add(product2);
+        lb1.add(product3);
+        lb2.add(product1);
+        lb3.add(product3);
+        lb4.add(product1);
+        lb4.add(product2);
+        lb4.add(product3);
 
         repository.put(lb1);
         repository.put(lb2);
@@ -42,9 +42,6 @@ public class InMemoryLightBoxRepositoryTest {
         repository.put(lb4);
 
         printLightBoxes(repository.getFor(client1));
-
-        lb1.add(picture4);
-        repository.put(lb1);
 
         printLightBoxes(repository.getFor(client1));
         printLightBoxes(repository.getFor(client2));
@@ -60,11 +57,11 @@ public class InMemoryLightBoxRepositoryTest {
     }
 
     private static void printLightBox(LightBox lightBox) {
-        for(Picture picture : lightBox) {
+        for(Product product : lightBox) {
             System.out.println(String.format("%s%s | %s",
-                    (picture.isActive() ? "" : "X "),
-                    picture.getNumber(),
-                    picture.calculatePrice(lightBox.getOwner())));
+                    (product.isActive() ? "" : "X "),
+                    product.getNumber(),
+                    product.calculatePrice(lightBox.getOwner())));
         }
     }
 }
