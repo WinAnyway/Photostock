@@ -16,8 +16,7 @@ public class LightBox implements Iterable<Product> {
     }
 
     public void add(Product product) {
-        if (!product.isAvailable())
-            throw new IllegalArgumentException(String.format("Product %s is not available", product.getNumber()));
+        product.ensureAvailable();
         if (items.contains(product))
             throw new IllegalArgumentException(String.format("Product %s is already in LightBox %s", product.getNumber(), name));
         items.add(product);

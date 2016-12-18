@@ -17,8 +17,7 @@ public class Reservation {
     public void add(Product product) {
         if(items.contains(product))
             throw new IllegalArgumentException(String.format("Product %s is already in this reservation", product.getNumber()));
-        if(!product.isAvailable())
-            throw new IllegalArgumentException(String.format("Product %s is not available", product.getNumber()));
+        product.ensureAvailable();
         items.add(product);
     }
 

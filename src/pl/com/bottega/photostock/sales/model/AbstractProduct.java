@@ -32,8 +32,7 @@ public abstract class AbstractProduct implements Product {
 
     @Override
     public void reservedPer(Client client) {
-        if (!isAvailable())
-            throw new IllegalStateException(String.format("{Picture %s is not available for reservation", getNumber()));
+        ensureAvailable();
         reservationOwner = client;
     }
 

@@ -7,9 +7,12 @@ public class ConsoleApplication {
     public static void main(String[] args) {
         ProductRepository productRepository = new InMemoryProductRepository();
         Client client = new Client("Johny X", new Address(), Money.valueOf(100));
+        Client vipClient = new VIPClient("Johny VIP", new Address(), Money.ZERO, Money.valueOf(100));
 
         System.out.println(client.introduce());
-        Reservation reservation = new Reservation(client);
+        System.out.println(vipClient.introduce());
+//        Reservation reservation = new Reservation(client);
+        Reservation reservation = new Reservation(vipClient);
 
         Product product1 = productRepository.get("1");
         Product product2 = productRepository.get("2");
@@ -26,12 +29,12 @@ public class ConsoleApplication {
 
         Offer offer = reservation.generateOffer();
 
-        boolean canAfford = client.canAfford(offer.getTotalCost());
+        boolean canAfford = vipClient.canAfford(offer.getTotalCost());
         System.out.println("Client can afford: " + String.valueOf(canAfford));
 
         if (canAfford) {
-            client.charge(offer.getTotalCost(), "Test purchase");
-            Purchase purchase = new Purchase(client, product1, product2, product3);
+            vipClient.charge(offer.getTotalCost(), "Test purchase");
+            Purchase purchase = new Purchase(vipClient, product1, product2, product3);
             System.out.println("Client purchased: " + purchase.getItemsCount() + " products");
             System.out.println("Total cost: " + offer.getTotalCost());
         }

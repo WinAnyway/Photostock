@@ -18,4 +18,9 @@ public interface Product {
     String getName();
 
     void deactivate();
+
+    default void ensureAvailable(){
+        if(!isAvailable())
+            throw new ProductNotAvailableException(this);
+    }
 }
