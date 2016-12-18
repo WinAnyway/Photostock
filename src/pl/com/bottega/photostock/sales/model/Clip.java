@@ -1,5 +1,7 @@
 package pl.com.bottega.photostock.sales.model;
 
+import pl.com.bottega.photostock.sales.model.money.Money;
+
 public class Clip extends AbstractProduct {
 
     private static final long FIVE_MINUTES = 1000L * 60 * 5;

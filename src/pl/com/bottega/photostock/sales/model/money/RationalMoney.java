@@ -1,46 +1,34 @@
-package pl.com.bottega.photostock.sales.model;
+package pl.com.bottega.photostock.sales.model.money;
 
-public class Money implements Comparable<Money>{
+import pl.com.bottega.photostock.sales.model.Rational;
 
-    private static final Currency DEFAULT_CURRENCY = Currency.CREDIT;
-
-    public static final Money ZERO = valueOf(0, DEFAULT_CURRENCY);
-
-    public enum Currency {CREDIT}
-
-    public static Money valueOf(Rational value, Currency currency) {
-        return new Money(value, currency);
-    }
-    public static Money valueOf(long value, Currency currency) {
-        return new Money(Rational.valueOf(value), currency);
-    }
-    public static Money valueOf(long value) {
-        return new Money(Rational.valueOf(value), DEFAULT_CURRENCY);
-    }
+class RationalMoney implements Money {
 
     public Money opposite() {
-        return new Money(value.negative(), currency);
+        return new RationalMoney(value.negative(), currency);
     }
 
     public Money add(Money addend) {
-        if (currency != addend.currency)
+        RationalMoney rationalMoney = addend.convertToRational();
+        if (currency != rationalMoney.currency)
             throw new IllegalArgumentException("The currencies do not match.");
 
-        return valueOf(value.add(addend.value), currency);
+        return new RationalMoney(value.add(rationalMoney.value), currency);
     }
 
     public Money subtract(Money subtrahend) {
-        if (currency != subtrahend.currency)
+        RationalMoney rationalMoney = subtrahend.convertToRational();
+        if (currency != rationalMoney.currency)
             throw new IllegalArgumentException("The currencies do not match.");
 
-        return valueOf(value.subtract(subtrahend.value), currency);
+        return new RationalMoney(value.subtract(rationalMoney.value), currency);
     }
 
     public Money multiply(long factor) {
         if (factor < 0)
-            throw new IllegalArgumentException("Money cannot be negative");
+            throw new IllegalArgumentException("RationalMoney cannot be negative");
 
-        return valueOf(value.multiply(factor), currency);
+        return new RationalMoney(value.multiply(factor), currency);
     }
 
     public boolean gte(Money money) {
@@ -60,15 +48,16 @@ public class Money implements Comparable<Money>{
     }
 
     public int compareTo(Money o) {
-        if(!o.currency.equals(currency))
+        RationalMoney rationalMoney = o.convertToRational();
+        if(!rationalMoney.currency.equals(currency))
             throw new IllegalArgumentException("Currency missmatch");
-        return value.compareTo(o.value);
+        return value.compareTo(rationalMoney.value);
     }
 
     private final Rational value;
     private final Currency currency;
 
-    private Money(Rational value, Currency currency) {
+    RationalMoney(Rational value, Currency currency) {
         this.value = value;
         this.currency = currency;
     }
@@ -79,11 +68,16 @@ public class Money implements Comparable<Money>{
     }
 
     @Override
+    public RationalMoney convertToRational(){
+        return this;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Money)) return false;
+        if (!(o instanceof RationalMoney)) return false;
 
-        Money money = (Money) o;
+        RationalMoney money = (RationalMoney) o;
 
         if (!value.equals(money.value)) return false;
         return currency == money.currency;

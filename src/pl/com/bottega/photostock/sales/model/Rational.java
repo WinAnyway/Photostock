@@ -32,7 +32,7 @@ public final class Rational implements Comparable<Rational> {
     }
 
     public static Rational valueOf(long integer) {
-        return valueOf(integer, 1);
+            return valueOf(integer, 1);
     }
 
     public static Rational valueOf(double value) {

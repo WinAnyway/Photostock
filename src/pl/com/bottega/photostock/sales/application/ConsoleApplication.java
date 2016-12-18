@@ -1,6 +1,7 @@
 package pl.com.bottega.photostock.sales.application;
 
 import pl.com.bottega.photostock.sales.model.*;
+import pl.com.bottega.photostock.sales.model.money.Money;
 
 public class ConsoleApplication {
 
@@ -37,8 +38,7 @@ public class ConsoleApplication {
             Purchase purchase = new Purchase(vipClient, product1, product2, product3);
             System.out.println("Client purchased: " + purchase.getItemsCount() + " products");
             System.out.println("Total cost: " + offer.getTotalCost());
-        }
-        else {
+        } else {
             System.out.println("Client cannot afford");
         }
     }
