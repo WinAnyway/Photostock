@@ -1,5 +1,6 @@
-package pl.com.bottega.photostock.sales.application;
+package pl.com.bottega.photostock.sales.presentation;
 
+import pl.com.bottega.photostock.sales.infrastructure.InMemoryProductRepository;
 import pl.com.bottega.photostock.sales.model.*;
 import pl.com.bottega.photostock.sales.model.money.Money;
 
@@ -43,8 +44,6 @@ public class InMemoryLightBoxRepositoryTest {
         repository.put(lb4);
 
         printLightBoxes(repository.getFor(client1));
-
-        printLightBoxes(repository.getFor(client1));
         printLightBoxes(repository.getFor(client2));
         printLightBoxes(repository.getFor(client3));
     }
@@ -59,9 +58,10 @@ public class InMemoryLightBoxRepositoryTest {
 
     private static void printLightBox(LightBox lightBox) {
         for(Product product : lightBox) {
-            System.out.println(String.format("%s%s | %s",
+            System.out.println(String.format("%s%s | %s | %s",
                     (product.isActive() ? "" : "X "),
                     product.getNumber(),
+                    product.getName(),
                     product.calculatePrice(lightBox.getOwner())));
         }
     }

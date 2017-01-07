@@ -1,6 +1,6 @@
 package pl.com.bottega.photostock.sales.model.money;
 
-public interface Money extends Comparable<Money>{
+public interface Money extends Comparable<Money> {
 
     Currency DEFAULT_CURRENCY = Currency.CREDIT;
 
@@ -20,14 +20,19 @@ public interface Money extends Comparable<Money>{
 
     IntegerMoney convertToInteger();
 
-    static Money valueOf(Rational value, Currency currency) {
-        return new RationalMoney(value, currency);
-    }
+    //    static Money valueOf(Rational value, Currency currency) {
+//        return new IntegerMoney(value., currency);
+//    }
     static Money valueOf(long value, Currency currency) {
-        return new RationalMoney(Rational.valueOf(value), currency);
+        return new IntegerMoney(value, currency);
     }
+
     static Money valueOf(long value) {
-        return new RationalMoney(Rational.valueOf(value), DEFAULT_CURRENCY);
+        return new IntegerMoney(value, DEFAULT_CURRENCY);
+    }
+
+    static Money valueOf(float value) {
+        return new IntegerMoney((long) (value * 100), DEFAULT_CURRENCY);
     }
 
     default boolean gte(Money money) {

@@ -22,4 +22,8 @@ public class Picture extends AbstractProduct {
     public Money calculatePrice(Client client) {
         return catalogPrice;
     }
+
+    public boolean hasTag(String tag) {
+        return tags.contains(tag);
+    }
 }
