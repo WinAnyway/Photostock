@@ -13,13 +13,13 @@ public class SearchScreen {
 
     private final Scanner scanner;
     private ProductCatalog productCatalog;
-    private Client client;
+    private LoginScreen loginScreen;
 
-    public SearchScreen(Scanner scanner, ProductCatalog productCatalog, Client client) {
+    public SearchScreen(Scanner scanner, ProductCatalog productCatalog, LoginScreen loginScreen) {
 
         this.scanner = scanner;
         this.productCatalog = productCatalog;
-        this.client = client;
+        this.loginScreen = loginScreen;
     }
 
     public void print() {
@@ -27,8 +27,8 @@ public class SearchScreen {
         String[] tags = getTags();
         Money priceFrom = getMoney("Cena od");
         Money priceTo = getMoney("Cena do");
-        List<Product> products = productCatalog.find(client, name, tags, priceFrom, priceTo);
-        printProducts(client, products);
+        List<Product> products = productCatalog.find(loginScreen.getClient(), name, tags, priceFrom, priceTo);
+        printProducts(loginScreen.getClient(), products);
     }
 
     private void printProducts(Client client, List<Product> products) {

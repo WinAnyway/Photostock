@@ -12,6 +12,9 @@ public class Client {
     private ClientStatus status;
     protected Money balance;
     private Collection<Transaction> transactions;
+    private boolean active = true;
+    private String number;
+    private static int clientNumber;
 
     public Client(String name, Address address, ClientStatus status, Money initialBalance) {
         this.name = name;
@@ -19,8 +22,14 @@ public class Client {
         this.status = status;
         this.balance = initialBalance;
         this.transactions = new LinkedList<>();
+        this.number = nextNumber();
         if (!initialBalance.equals(Money.ZERO))
             this.transactions.add(new Transaction(initialBalance, "Opening account"));
+    }
+
+    private static String nextNumber() {
+        clientNumber += 100;
+        return String.valueOf(clientNumber);
     }
 
     public Client(String name, Address address, Money balance) {
@@ -32,7 +41,7 @@ public class Client {
     }
 
     public void charge(Money money, String reason) {
-        if(money.lte(Money.ZERO))
+        if (money.lte(Money.ZERO))
             throw new IllegalArgumentException("Negative charge amount prohibited");
 
         if (canAfford(money)) {
@@ -47,7 +56,7 @@ public class Client {
     }
 
     public void recharge(Money money) {
-        if(money.lte(Money.ZERO))
+        if (money.lte(Money.ZERO))
             throw new IllegalArgumentException("Negative recharge amount prohibited");
 
         Transaction transaction = new Transaction(money, "Recharge account");
@@ -59,7 +68,19 @@ public class Client {
         return name;
     }
 
-    public String introduce(){
+    public String introduce() {
         return String.format("%s - %s", name, status.getStatusName());
+    }
+
+    public void deactivate() {
+        active = false;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public String getNumber() {
+        return number;
     }
 }

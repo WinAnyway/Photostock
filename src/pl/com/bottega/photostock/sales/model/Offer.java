@@ -42,4 +42,8 @@ public class Offer {
             }
         });
     }
+
+    public List<Product> getItems() {
+        return items;
+    }
 }
