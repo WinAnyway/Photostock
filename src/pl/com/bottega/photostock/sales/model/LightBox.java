@@ -59,4 +59,9 @@ public class LightBox implements Iterable<Product> {
             }
 
     }
+
+    @Override
+    public String toString() {
+        return String.format("Lightbox %s, ktorego wlascicielem jest %s: \n %s", name, client.getName(), items);
+    }
 }

@@ -25,4 +25,9 @@ public class InMemoryClientRepository implements ClientRepository{
     public Client get(String clientNumber) {
         return REPOSITORY.get(clientNumber);
     }
+
+    @Override
+    public boolean contains(String clientNumber) {
+        return REPOSITORY.containsKey(clientNumber);
+    }
 }

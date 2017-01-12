@@ -4,6 +4,6 @@ public interface ClientRepository {
 
     Client get(String clientNumber);
 
-
+    boolean contains(String clientNumber);
 
 }

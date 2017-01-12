@@ -1,6 +1,9 @@
 package pl.com.bottega.photostock.sales.model;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class InMemoryLightBoxRepository implements LightBoxRepository {
 
@@ -17,5 +20,19 @@ public class InMemoryLightBoxRepository implements LightBoxRepository {
     @Override
     public Collection<LightBox> getFor(Client client) {
         return repository.get(client);
+    }
+
+    @Override
+    public LightBox findLightBox(Client client, String lightBoxName) {
+        Collection<LightBox> clientLightBoxes = repository.get(client);
+
+        if(clientLightBoxes == null)
+            return null;
+
+        for(LightBox lightBox : clientLightBoxes){
+            if(lightBox.getName().equals(lightBoxName))
+                return lightBox;
+        }
+        return null;
     }
 }

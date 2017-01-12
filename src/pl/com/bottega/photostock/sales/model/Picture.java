@@ -26,4 +26,5 @@ public class Picture extends AbstractProduct {
     public boolean hasTag(String tag) {
         return tags.contains(tag);
     }
+
 }

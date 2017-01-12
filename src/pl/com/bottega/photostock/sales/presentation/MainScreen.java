@@ -5,15 +5,17 @@ import java.util.Scanner;
 public class MainScreen {
 
     private final Scanner scanner;
-    private SearchScreen searchScreen;
-    private ReservationScreen reservationScreen;
+    private final SearchScreen searchScreen;
+    private final ReservationScreen reservationScreen;
     private final OfferScreen offerScreen;
+    private final LightBoxScreen lightBoxScreen;
 
-    public MainScreen(Scanner scanner, SearchScreen searchScreen, ReservationScreen reservationScreen, OfferScreen offerScreen) {
+    public MainScreen(Scanner scanner, SearchScreen searchScreen, ReservationScreen reservationScreen, OfferScreen offerScreen, LightBoxScreen lightBoxScreen) {
         this.searchScreen = searchScreen;
         this.reservationScreen = reservationScreen;
         this.offerScreen = offerScreen;
         this.scanner = scanner;
+        this.lightBoxScreen = lightBoxScreen;
     }
 
     public void print() {
@@ -35,6 +37,9 @@ public class MainScreen {
             case "3":
                 offerScreen.print();
                 break;
+            case "4":
+                lightBoxScreen.print();
+                break;
             default:
                 System.out.println("Sorry nie rozumiem ;(");
         }
@@ -44,6 +49,7 @@ public class MainScreen {
         System.out.println("1. Wyszukaj produkty");
         System.out.println("2. Zarezerwuj produkt");
         System.out.println("3. Wygeneruj produkt");
+        System.out.println("4. Zarządzaj lightboxami");
     }
 
     private String getCommand() {

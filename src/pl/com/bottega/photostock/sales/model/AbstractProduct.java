@@ -96,4 +96,11 @@ public abstract class AbstractProduct implements Product {
         return number != null ? number.hashCode() : 0;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s%s | %s",
+                (isActive() ? "" : "X "),
+                getNumber(),
+                getName());
+    }
 }
