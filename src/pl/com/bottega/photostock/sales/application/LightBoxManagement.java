@@ -19,7 +19,7 @@ public class LightBoxManagement {
 
     public Collection<String> getLightBoxNames(String clientNumber) {
         if(!clientRepository.contains(clientNumber))
-            throw new IllegalArgumentException(String.format("Client with number %s does not exist", clientNumber));
+            throw new ClientNotExistException(String.format("Client %s does not exist!", clientNumber));
 
         Collection<String> lightBoxNames = new LinkedList<>();
         Collection<LightBox> lightBoxes = lightBoxRepository.getFor(clientRepository.get(clientNumber));
@@ -35,26 +35,26 @@ public class LightBoxManagement {
 
     public LightBox getLightBox(String clientNumber, String lightBoxName) {
         Client client = clientRepository.get(clientNumber);
+        LightBox lightBox = lightBoxRepository.findLightBox(client, lightBoxName);
         if(!clientRepository.contains(clientNumber))
-            throw new IllegalArgumentException(String.format("Client with number %s does not exist", clientNumber));
-        if(lightBoxRepository.findLightBox(client, lightBoxName) == null)
-            throw new IllegalArgumentException(String.format("LightBox %s does not exist", lightBoxName));
+            throw new ClientNotExistException(String.format("Client %s does not exist!", clientNumber));
+        if(lightBox == null)
+            throw new LightBoxNotExistException(String.format("LightBox %s does not exist!", lightBoxName));
 
-        return lightBoxRepository.findLightBox(client, lightBoxName);
+        return lightBox;
     }
 
     public void addProduct(String clientNumber, String lightBoxName, String productNumber) {
         if(!clientRepository.contains(clientNumber))
-            throw new IllegalArgumentException(String.format("Client with number %s does not exist", clientNumber));
+            throw new ClientNotExistException(String.format("Client %s does not exist!", clientNumber));
         if(productRepository.get(productNumber) == null)
-            throw new IllegalArgumentException(String.format("I can't recognize product number %s", productNumber));
+            throw new ProductNotRecognizedException(String.format("I can't recognize product %s", productNumber));
 
         LightBox lightBox = lightBoxRepository.findLightBox(clientRepository.get(clientNumber), lightBoxName);
 
         if(lightBox == null) {
             lightBox = new LightBox(clientRepository.get(clientNumber), lightBoxName);
             lightBoxRepository.put(lightBox);
-            System.out.println(String.format("Stworzyłeś lightboxa %s", lightBoxName));
         }
         lightBox.add(productRepository.get(productNumber));
     }
