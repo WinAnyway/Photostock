@@ -8,7 +8,12 @@ import pl.com.bottega.photostock.sales.infrastructure.InMemoryClientRepository;
 import pl.com.bottega.photostock.sales.infrastructure.InMemoryProductRepository;
 import pl.com.bottega.photostock.sales.infrastructure.InMemoryPurchaseRepository;
 import pl.com.bottega.photostock.sales.infrastructure.InMemoryReservationRepository;
-import pl.com.bottega.photostock.sales.model.*;
+import pl.com.bottega.photostock.sales.model.client.ClientRepository;
+import pl.com.bottega.photostock.sales.model.lightbox.InMemoryLightBoxRepository;
+import pl.com.bottega.photostock.sales.model.lightbox.LightBoxRepository;
+import pl.com.bottega.photostock.sales.model.product.ProductRepository;
+import pl.com.bottega.photostock.sales.model.purchase.PurchaseRepository;
+import pl.com.bottega.photostock.sales.model.purchase.ReservationRepository;
 
 import java.util.Scanner;
 

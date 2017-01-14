@@ -1,15 +1,22 @@
 package pl.com.bottega.photostock.sales.presentation;
 
 import pl.com.bottega.photostock.sales.infrastructure.InMemoryProductRepository;
-import pl.com.bottega.photostock.sales.model.*;
+import pl.com.bottega.photostock.sales.model.client.Address;
+import pl.com.bottega.photostock.sales.model.client.Client;
+import pl.com.bottega.photostock.sales.model.client.ClientStatus;
 import pl.com.bottega.photostock.sales.model.money.Money;
+import pl.com.bottega.photostock.sales.model.product.Product;
+import pl.com.bottega.photostock.sales.model.product.ProductRepository;
+import pl.com.bottega.photostock.sales.model.purchase.Offer;
+import pl.com.bottega.photostock.sales.model.purchase.Purchase;
+import pl.com.bottega.photostock.sales.model.purchase.Reservation;
 
 public class ConsoleApplication {
 
     public static void main(String[] args) {
         ProductRepository productRepository = new InMemoryProductRepository();
         Client client = new Client("Johny X", new Address(), Money.valueOf(100));
-        Client vipClient = new VIPClient("Johny VIP", new Address(), Money.ZERO, Money.valueOf(100));
+        Client vipClient = new ClientStatus.VIPClient("Johny VIP", new Address(), Money.ZERO, Money.valueOf(100));
 
         System.out.println(client.introduce());
         System.out.println(vipClient.introduce());

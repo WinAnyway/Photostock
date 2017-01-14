@@ -1,9 +1,9 @@
 package pl.com.bottega.photostock.sales.infrastructure;
 
-import pl.com.bottega.photostock.sales.model.Address;
-import pl.com.bottega.photostock.sales.model.Client;
-import pl.com.bottega.photostock.sales.model.ClientRepository;
-import pl.com.bottega.photostock.sales.model.VIPClient;
+import pl.com.bottega.photostock.sales.model.client.Address;
+import pl.com.bottega.photostock.sales.model.client.Client;
+import pl.com.bottega.photostock.sales.model.client.ClientRepository;
+import pl.com.bottega.photostock.sales.model.client.ClientStatus;
 import pl.com.bottega.photostock.sales.model.money.Money;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class InMemoryClientRepository implements ClientRepository {
 
     static {
         Client client = new Client("Johny X", new Address(), Money.valueOf(10000));
-        Client vipClient = new VIPClient("Johny VIP", new Address(), Money.ZERO, Money.valueOf(100));
+        Client vipClient = new ClientStatus.VIPClient("Johny VIP", new Address(), Money.ZERO, Money.valueOf(100));
 
         REPOSITORY.put(client.getNumber(), client);
         REPOSITORY.put(vipClient.getNumber(), vipClient);
