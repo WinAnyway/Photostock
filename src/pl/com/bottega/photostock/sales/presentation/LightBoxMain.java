@@ -6,6 +6,7 @@ import pl.com.bottega.photostock.sales.application.ProductCatalog;
 import pl.com.bottega.photostock.sales.application.PurchaseProcess;
 import pl.com.bottega.photostock.sales.infrastructure.InMemoryClientRepository;
 import pl.com.bottega.photostock.sales.infrastructure.InMemoryProductRepository;
+import pl.com.bottega.photostock.sales.infrastructure.InMemoryPurchaseRepository;
 import pl.com.bottega.photostock.sales.infrastructure.InMemoryReservationRepository;
 import pl.com.bottega.photostock.sales.model.*;
 
@@ -27,17 +28,18 @@ public class LightBoxMain {
         ClientRepository clientRepository = new InMemoryClientRepository();
         ReservationRepository reservationRepository = new InMemoryReservationRepository();
         LightBoxRepository lightBoxRepository = new InMemoryLightBoxRepository();
+        PurchaseRepository purchaseRepository = new InMemoryPurchaseRepository();
 
         ProductCatalog productCatalog = new ProductCatalog(productRepository);
         AuthenticationProcess authenticationProcess = new AuthenticationProcess(clientRepository);
-        PurchaseProcess purchaseProcess = new PurchaseProcess(clientRepository, reservationRepository, productRepository);
-        LightBoxManagement lightBoxManagement = new LightBoxManagement(lightBoxRepository, productRepository, clientRepository);
+        PurchaseProcess purchaseProcess = new PurchaseProcess(clientRepository, reservationRepository, productRepository, purchaseRepository);
+        LightBoxManagement lightBoxManagement = new LightBoxManagement(purchaseProcess, lightBoxRepository, productRepository, clientRepository);
 
         loginScreen = new LoginScreen(scanner, authenticationProcess);
         searchScreen = new SearchScreen(scanner, productCatalog, loginScreen);
         reservationScreen = new ReservationScreen(scanner, loginScreen, purchaseProcess);
         offerScreen = new OfferScreen(scanner, loginScreen, purchaseProcess);
-        lightBoxScreen = new LightBoxScreen(scanner, lightBoxManagement, loginScreen);
+        lightBoxScreen = new LightBoxScreen(scanner, loginScreen, lightBoxManagement);
         mainScreen = new MainScreen(scanner, searchScreen, reservationScreen, offerScreen, lightBoxScreen);
     }
 

@@ -48,7 +48,7 @@ public class MainScreen {
     private void printMenu() {
         System.out.println("1. Wyszukaj produkty");
         System.out.println("2. Zarezerwuj produkt");
-        System.out.println("3. Wygeneruj produkt");
+        System.out.println("3. Wygeneruj oferte");
         System.out.println("4. Zarządzaj lightboxami");
     }
 

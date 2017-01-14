@@ -10,6 +10,7 @@ public class Reservation {
     private Client client;
     private Collection<Product> items;
     private String number;
+    private boolean active = true;
 
     public Reservation(Client client) {
         this.client = client;
@@ -34,7 +35,7 @@ public class Reservation {
 
     public Offer generateOffer() {
         Collection<Product> products = getActiveItems();
-        if(products.isEmpty())
+        if (products.isEmpty())
             throw new IllegalStateException("No active items in the reservation");
         return new Offer(client, getActiveItems());
     }
@@ -58,5 +59,17 @@ public class Reservation {
 
     public boolean isOwnedBy(String clientNumber) {
         return client.getNumber().equals(clientNumber);
+    }
+
+    public Client getOwner() {
+        return client;
+    }
+
+    public void deactivate() {
+        this.active = false;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

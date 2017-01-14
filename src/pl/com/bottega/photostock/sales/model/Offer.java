@@ -16,7 +16,8 @@ public class Offer {
     }
 
     public boolean sameAs(Offer other, Money money) {
-        return false;
+        //TODO
+        return true;
     }
 
     public int getItemsCount() {

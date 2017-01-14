@@ -6,7 +6,7 @@ import pl.com.bottega.photostock.sales.model.ReservationRepository;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryReservationRepository implements ReservationRepository{
+public class InMemoryReservationRepository implements ReservationRepository {
 
     private static final Map<String, Reservation> REPOSITORY = new HashMap<>();
 
@@ -23,7 +23,7 @@ public class InMemoryReservationRepository implements ReservationRepository{
     @Override
     public Reservation getActiveReservationForClient(String clientNumber) {
         for (Reservation reservation : REPOSITORY.values()) {
-            if(reservation.isOwnedBy(clientNumber))
+            if (reservation.isOwnedBy(clientNumber) && reservation.isActive())
                 return reservation;
         }
         return null;

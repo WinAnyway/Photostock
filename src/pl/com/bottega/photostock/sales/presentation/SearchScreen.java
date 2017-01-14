@@ -34,7 +34,8 @@ public class SearchScreen {
     private void printProducts(Client client, List<Product> products) {
         System.out.println("Matching products: ");
         for (Product product : products) {
-            System.out.println(String.format("%s | %s %s",
+            System.out.println(String.format("%s%s | %s %s",
+                    product.isAvailable() ? "" : "X",
                     product.getNumber(),
                     product.getName(),
                     product.calculatePrice(client)));

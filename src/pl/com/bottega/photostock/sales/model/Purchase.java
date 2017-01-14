@@ -5,21 +5,34 @@ import java.util.*;
 public class Purchase {
 
     private Client client;
-    private Date purchaseDate;
+    private Date purchaseDate = new Date();
     private List<Product> items;
+    private String number;
 
-    public Purchase(Client client, Collection<Product> items){
+    public Purchase(Client client, Collection<Product> items) {
         this.client = client;
         this.items = new LinkedList<>(items);
+        this.number = UUID.randomUUID().toString();
         sortProductsByNumberAsc();
+        markProductsAsSold();
     }
 
-    public Purchase(Client client, Product ... items){
+    private void markProductsAsSold() {
+        for (Product product : items) {
+            product.soldPer(client);
+        }
+    }
+
+    public Purchase(Client client, Product... items) {
         this(client, Arrays.asList(items));
     }
 
-    public int getItemsCount(){
+    public int getItemsCount() {
         return items.size();
+    }
+
+    public String getNumber() {
+        return number;
     }
 
     private void sortProductsByNumberAsc() {
