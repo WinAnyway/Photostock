@@ -4,10 +4,10 @@ import pl.com.bottega.photostock.sales.application.AuthenticationProcess;
 import pl.com.bottega.photostock.sales.application.LightBoxManagement;
 import pl.com.bottega.photostock.sales.application.ProductCatalog;
 import pl.com.bottega.photostock.sales.application.PurchaseProcess;
-import pl.com.bottega.photostock.sales.infrastructure.InMemoryClientRepository;
-import pl.com.bottega.photostock.sales.infrastructure.InMemoryProductRepository;
-import pl.com.bottega.photostock.sales.infrastructure.InMemoryPurchaseRepository;
-import pl.com.bottega.photostock.sales.infrastructure.InMemoryReservationRepository;
+import pl.com.bottega.photostock.sales.infrastructure.csv.CSVClientRepository;
+import pl.com.bottega.photostock.sales.infrastructure.memory.InMemoryProductRepository;
+import pl.com.bottega.photostock.sales.infrastructure.memory.InMemoryPurchaseRepository;
+import pl.com.bottega.photostock.sales.infrastructure.memory.InMemoryReservationRepository;
 import pl.com.bottega.photostock.sales.model.client.ClientRepository;
 import pl.com.bottega.photostock.sales.model.lightbox.InMemoryLightBoxRepository;
 import pl.com.bottega.photostock.sales.model.lightbox.LightBoxRepository;
@@ -30,7 +30,7 @@ public class LightBoxMain {
         Scanner scanner = new Scanner(System.in);
 
         ProductRepository productRepository = new InMemoryProductRepository();
-        ClientRepository clientRepository = new InMemoryClientRepository();
+        ClientRepository clientRepository = new CSVClientRepository("D:\\photostockResources");
         ReservationRepository reservationRepository = new InMemoryReservationRepository();
         LightBoxRepository lightBoxRepository = new InMemoryLightBoxRepository();
         PurchaseRepository purchaseRepository = new InMemoryPurchaseRepository();

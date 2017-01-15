@@ -15,4 +15,16 @@ public class Transaction {
         this.description = description;
         this.timestamp = LocalDateTime.now();
     }
+
+    public Money getValue() {
+        return value;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 }
