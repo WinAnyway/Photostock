@@ -25,21 +25,25 @@ public class InMemoryLightBoxRepository implements LightBoxRepository {
     public Collection<String> getLightBoxNames(Client client) {
         Collection<String> lightBoxNames = new LinkedList<>();
         Collection<LightBox> lightBoxes = REPOSITORY.get(client);
-        if(lightBoxes != null)
-            for(LightBox lb : lightBoxes)
+        if (lightBoxes != null)
+            for (LightBox lb : lightBoxes)
                 lightBoxNames.add(lb.getName());
         return lightBoxNames;
+    }
+
+    @Override
+    public void updateLightBox(LightBox l) {
     }
 
     @Override
     public LightBox findLightBox(Client client, String lightBoxName) {
         Collection<LightBox> clientLightBoxes = REPOSITORY.get(client);
 
-        if(clientLightBoxes == null)
+        if (clientLightBoxes == null)
             return null;
 
-        for(LightBox lightBox : clientLightBoxes){
-            if(lightBox.getName().equals(lightBoxName))
+        for (LightBox lightBox : clientLightBoxes) {
+            if (lightBox.getName().equals(lightBoxName))
                 return lightBox;
         }
         return null;

@@ -50,27 +50,41 @@ public class LightBoxManagement {
         if (product == null) {
             throw new IllegalArgumentException(String.format("No product with number %s", customerNumber));
         }
-        LightBox lightBox = getOrCreateLightBox(lightBoxName, client);
-        lightBox.add(product);
+
+        LightBox lightBox = lightBoxRepository.findLightBox(client, lightBoxName);
+
+        updateLightBoxRepository(lightBoxName, client, product, lightBox);
+    }
+
+    private void updateLightBoxRepository(String lightBoxName, Client client, Product product, LightBox lightBox) {
+        if (lightBox == null) {
+            lightBox = new LightBox(client, lightBoxName);
+            lightBox.add(product);
+            lightBoxRepository.put(lightBox);
+        } else {
+            lightBox.add(product);
+            lightBoxRepository.updateLightBox(lightBox);
+        }
     }
 
     public void reserve(String clientNumber, String lightBoxName) {
         LightBox lightBox = getLightBox(clientNumber, lightBoxName);
         String reservationNumber = purchaseProcess.getReservation(clientNumber);
-        for(Product product : lightBox) {
-            if(product.isAvailable())
+        for (Product product : lightBox) {
+            if (product.isAvailable())
                 purchaseProcess.add(reservationNumber, product.getNumber());
         }
     }
 
-    private LightBox getOrCreateLightBox(String lightBoxName, Client client) {
+    /*private LightBox getOrCreateLightBox(String lightBoxName, Client client, Product product) {
         LightBox lightBox = lightBoxRepository.findLightBox(client, lightBoxName);
         if (lightBox == null) {
             lightBox = new LightBox(client, lightBoxName);
+            lightBox.add(product);
             lightBoxRepository.put(lightBox);
         }
         return lightBox;
-    }
+    }*/
 
     private void ensureLightBoxFound(String lightBoxName, LightBox lightBox) {
         if (lightBox == null)

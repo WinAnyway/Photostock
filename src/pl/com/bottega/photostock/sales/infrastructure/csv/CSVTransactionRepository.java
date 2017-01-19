@@ -5,16 +5,17 @@ import pl.com.bottega.photostock.sales.model.money.Money;
 import pl.com.bottega.photostock.sales.model.purchase.Transaction;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class CSVTranscationRepository {
+public class CSVTransactionRepository {
 
     private String folderPath;
 
-    public CSVTranscationRepository(String folderPath) {
+    public CSVTransactionRepository(String folderPath) {
         this.folderPath = folderPath;
     }
 
@@ -35,18 +36,19 @@ public class CSVTranscationRepository {
     }
 
     public Collection<Transaction> getTransactions(String clientNumber) {
-        Collection<Transaction> transactions = new LinkedList<>();
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(getRepositoryPath(clientNumber)))
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(getRepositoryPath(clientNumber)))
         ) {
+            Collection<Transaction> transactions = new LinkedList<>();
             String line;
-            while((line = bufferedReader.readLine()) != null) {
-                String[] transactionElements = line.split(",");
-                transactions.add(new Transaction(Money.valueOf(transactionElements[0]), transactionElements[1]));
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] components = line.split(",");
+                transactions.add(new Transaction(Money.valueOf(components[0]), components[1],
+                        LocalDateTime.parse(components[2], DateTimeFormatter.ISO_DATE_TIME)));
             }
+            return transactions;
         } catch (Exception e) {
             throw new DataAccessException(e);
         }
-        return transactions;
     }
 
     private String getRepositoryPath(String clientNumber) {

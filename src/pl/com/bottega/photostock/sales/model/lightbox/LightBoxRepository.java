@@ -12,4 +12,6 @@ public interface LightBoxRepository {
     LightBox findLightBox(Client client, String lightBoxName);
 
     Collection<String> getLightBoxNames(Client client);
+
+    void updateLightBox(LightBox l);
 }

@@ -5,11 +5,11 @@ import pl.com.bottega.photostock.sales.application.LightBoxManagement;
 import pl.com.bottega.photostock.sales.application.ProductCatalog;
 import pl.com.bottega.photostock.sales.application.PurchaseProcess;
 import pl.com.bottega.photostock.sales.infrastructure.csv.CSVClientRepository;
+import pl.com.bottega.photostock.sales.infrastructure.csv.CSVLightBoxRepository;
 import pl.com.bottega.photostock.sales.infrastructure.memory.InMemoryProductRepository;
 import pl.com.bottega.photostock.sales.infrastructure.memory.InMemoryPurchaseRepository;
 import pl.com.bottega.photostock.sales.infrastructure.memory.InMemoryReservationRepository;
 import pl.com.bottega.photostock.sales.model.client.ClientRepository;
-import pl.com.bottega.photostock.sales.model.lightbox.InMemoryLightBoxRepository;
 import pl.com.bottega.photostock.sales.model.lightbox.LightBoxRepository;
 import pl.com.bottega.photostock.sales.model.product.ProductRepository;
 import pl.com.bottega.photostock.sales.model.purchase.PurchaseRepository;
@@ -32,7 +32,7 @@ public class LightBoxMain {
         ProductRepository productRepository = new InMemoryProductRepository();
         ClientRepository clientRepository = new CSVClientRepository("D:\\photostockResources");
         ReservationRepository reservationRepository = new InMemoryReservationRepository();
-        LightBoxRepository lightBoxRepository = new InMemoryLightBoxRepository();
+        LightBoxRepository lightBoxRepository = new CSVLightBoxRepository("D:\\photostockResources", productRepository);
         PurchaseRepository purchaseRepository = new InMemoryPurchaseRepository();
 
         ProductCatalog productCatalog = new ProductCatalog(productRepository);

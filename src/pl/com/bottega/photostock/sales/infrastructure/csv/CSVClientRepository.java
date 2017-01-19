@@ -3,17 +3,20 @@ package pl.com.bottega.photostock.sales.infrastructure.csv;
 import com.sun.deploy.util.StringUtils;
 import pl.com.bottega.photostock.sales.model.client.*;
 import pl.com.bottega.photostock.sales.model.money.Money;
+import pl.com.bottega.photostock.sales.model.purchase.Transaction;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.Collection;
 
 public class CSVClientRepository implements ClientRepository {
 
     private String path, tmpPath, folderPath;
+    private CSVTransactionRepository csvTransactionRepository;
 
     public CSVClientRepository(String folderPath) {
         this.folderPath = folderPath;
+        this.csvTransactionRepository = new CSVTransactionRepository(folderPath);
         this.path = folderPath + File.separator + "clientRepository.csv";
         this.tmpPath = path + ".tmp";
     }
@@ -58,8 +61,8 @@ public class CSVClientRepository implements ClientRepository {
     }
 
     private void updateTransactions(Client client) {
-        CSVTranscationRepository csvTranscationRepository = new CSVTranscationRepository(folderPath);
-        csvTranscationRepository.saveTransactions(client.getNumber(), client.getTranscations());
+        CSVTransactionRepository csvTransactionRepository = new CSVTransactionRepository(folderPath);
+        csvTransactionRepository.saveTransactions(client.getNumber(), client.getTranscations());
     }
 
     private void replaceFiles() {
@@ -70,14 +73,14 @@ public class CSVClientRepository implements ClientRepository {
 
     private void writeClient(Client client, PrintWriter printWriter) {
         String[] attributes = new String[]{
-            client.getNumber(),
-            client.getName(),
-            String.valueOf(client.isActive()),
-            String.valueOf(client.getStatus()),
-            String.valueOf(client.getBalance()),
-            ""
+                client.getNumber(),
+                client.getName(),
+                String.valueOf(client.isActive()),
+                String.valueOf(client.getStatus()),
+                String.valueOf(client.getBalance()),
+                ""
         };
-        if(client instanceof VIPClient) {
+        if (client instanceof VIPClient) {
             VIPClient vipClient = (VIPClient) client;
             attributes[5] = String.valueOf(vipClient.getCreditLimit());
         }
@@ -89,11 +92,12 @@ public class CSVClientRepository implements ClientRepository {
         boolean active = Boolean.valueOf(attributes[2]);
         ClientStatus status = ClientStatus.valueOf(attributes[3]);
         Money balance = Money.valueOf(attributes[4]);
+        Collection<Transaction> transactions = csvTransactionRepository.getTransactions(number);
         if (status.equals(ClientStatus.VIP)) {
             Money creditLimit = Money.valueOf(attributes[5]);
-            return new VIPClient(number, name, new Address(), balance, creditLimit, active, new LinkedList<>());
+            return new VIPClient(number, name, new Address(), balance, creditLimit, active, transactions);
         } else
-            return new Client(number, name, new Address(), status, balance, active, new LinkedList<>());
+            return new Client(number, name, new Address(), status, balance, active, transactions);
     }
 
 

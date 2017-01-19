@@ -11,24 +11,29 @@ public class LightBox implements Iterable<Product> {
 
     private String name;
     private Client client;
-    private Collection<Product> items = new LinkedList<>();
+    private Collection<Product> products;
 
     public LightBox(Client client, String name) {
+        this(client, name, new LinkedList<>());
+    }
+
+    public LightBox(Client client, String name, Collection<Product> products) {
         this.name = name;
         this.client = client;
+        this.products = products;
     }
 
     public void add(Product product) {
         product.ensureAvailable();
-        if (items.contains(product))
+        if (products.contains(product))
             throw new IllegalArgumentException(String.format("Product %s is already in LightBox %s", product.getNumber(), name));
-        items.add(product);
+        products.add(product);
     }
 
     public void remove(Product product) {
-        if (!items.contains(product))
+        if (!products.contains(product))
             throw new IllegalArgumentException(String.format("Product %s is not in LightBox %s", product.getNumber(), name));
-        items.remove(product);
+        products.remove(product);
     }
 
     public void rename(String newName) {
@@ -39,9 +44,13 @@ public class LightBox implements Iterable<Product> {
         return name;
     }
 
+    public Collection<Product> getProducts() {
+        return products;
+    }
+
     @Override
     public Iterator<Product> iterator() {
-        return items.iterator();
+        return products.iterator();
     }
 
     public Client getOwner() {
@@ -57,14 +66,14 @@ public class LightBox implements Iterable<Product> {
     private void join(LightBox[] lightboxes) {
         for (LightBox lightbox : lightboxes)
             for (Product product : lightbox) {
-                if (!items.contains(product) && product.isAvailable())
-                    items.add(product);
+                if (!products.contains(product) && product.isAvailable())
+                    products.add(product);
             }
 
     }
 
     @Override
     public String toString() {
-        return String.format("Lightbox %s, ktorego wlascicielem jest %s: \n %s", name, client.getName(), items);
+        return String.format("Lightbox %s, ktorego wlascicielem jest %s: \n %s", name, client.getName(), products);
     }
 }
