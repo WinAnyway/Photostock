@@ -28,10 +28,16 @@ public class CSVLightBoxRepository implements LightBoxRepository {
     public void put(LightBox l) {
         try (PrintWriter printWriter = new PrintWriter(new FileWriter(path, true))) {
             String[] components = {l.getOwner().getNumber(), l.getName(), getProductNumbers(l.getProducts())};
+            ensureLightBoxIsNotInRepository(l);
             printWriter.println(StringUtils.join(Arrays.asList(components), ","));
         } catch (Exception e) {
             throw new DataAccessException(e);
         }
+    }
+
+    private void ensureLightBoxIsNotInRepository(LightBox l) {
+        if(findLightBox(l.getOwner(), l.getName()) != null)
+            throw new IllegalArgumentException(String.format("LightBox %s is already in this repository", l.getName()));
     }
 
     @Override
@@ -82,7 +88,7 @@ public class CSVLightBoxRepository implements LightBoxRepository {
     }
 
     @Override
-    public void updateLightBox(LightBox l) {
+    public void update(LightBox l) {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
              PrintWriter printWriter = new PrintWriter(new FileWriter(tmpPath))
         ) {

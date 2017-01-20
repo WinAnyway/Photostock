@@ -63,7 +63,7 @@ public class LightBoxManagement {
             lightBoxRepository.put(lightBox);
         } else {
             lightBox.add(product);
-            lightBoxRepository.updateLightBox(lightBox);
+            lightBoxRepository.update(lightBox);
         }
     }
 

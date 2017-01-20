@@ -32,7 +32,7 @@ public class InMemoryLightBoxRepository implements LightBoxRepository {
     }
 
     @Override
-    public void updateLightBox(LightBox l) {
+    public void update(LightBox l) {
     }
 
     @Override
